@@ -1,4 +1,6 @@
 import scrapy
+import re
+
 from scrapy_selenium import SeleniumRequest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -34,7 +36,7 @@ class VintedSpider(scrapy.Spider):
             url = item.find_element(By.CSS_SELECTOR, 'a.new-item-box__overlay--clickable').get_attribute('href')
             yield SeleniumRequest(url=url, callback=self.parse_item)
             parsed_items += 1
-            if parsed_items >= 2:
+            if parsed_items >= 16:
                 break
         # Cierra el controlador de Selenium
         driver.quit()
@@ -71,17 +73,30 @@ class VintedSpider(scrapy.Spider):
 
         views = view_count_element.text
 
+        item_url = response.url
+
+        match = re.search(r'items/(\d+)-', item_url)
+        if match:
+            identificador = match.group(1)
+        else:
+            identificador = None
 
 
+        title_element = driver.find_element(By.CSS_SELECTOR, 'div[itemprop="name"]')
+
+        title = title_element.find_element(By.TAG_NAME, 'h2').text
 
         # Agregar el objeto a self.item_data
         self.item_data.append({
             
+            'title': title,
             'image_src' : image_src,
             'price': price,
             'brand': brand,
             'location': location,
             'views' : views,
+            'url': item_url,
+            'identificador': identificador
         })
 
         # Agregar el objeto a self.item_data
@@ -91,4 +106,4 @@ class VintedSpider(scrapy.Spider):
     def close(self, reason):
         if reason == 'finished':
             with open('vinted.json', 'w', encoding='utf-8') as f:
-                json.dump(self.item_data, f, indent=5, ensure_ascii=False)
+                json.dump(self.item_data, f, indent=4, ensure_ascii=False)
