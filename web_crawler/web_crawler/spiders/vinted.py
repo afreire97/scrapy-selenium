@@ -63,7 +63,7 @@ class VintedSpider(scrapy.Spider):
 
         price_text_element = price_element.find_element(By.TAG_NAME, 'h3')
         price = price_text_element.text
-        price = price.replace('€', '').replace(',', '')
+        price = price.replace('€', '')
 
           
         
