@@ -9,4 +9,5 @@ class RelojWallapop extends Model
 {
     use HasFactory;
     protected $table ='relojes_wallapop';
+    protected $guarded = [];
 }

@@ -1,26 +1,23 @@
 <?php
 
 namespace App\Http\Controllers\Utils;
+
 use App\Models\RelojVinted;
 use App\Models\RelojWallapop;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
-class LectorJson{
+class LectorJson
+{
 
 
-public static function leerJsonVinted()
+    public static function leerJsonVinted()
     {
         // Ruta al archivo JSON
         $rutaJson = __DIR__ . '/../../../../../web_crawler/web_crawler/vinted.json';
 
-
-
         // Verificar si el archivo JSON existe
         if (File::exists($rutaJson)) {
-
-
-
 
             // Leer el contenido del archivo JSON
             $contenidoJson = File::get($rutaJson);
@@ -42,18 +39,44 @@ public static function leerJsonVinted()
                 $reloj->views = $relojData['views'];
                 $reloj->url = $relojData['url'];
                 $reloj->identificador = $relojData['identificador'];
+                $reloj->tipo = $relojData['tipo'];
+                $fecha = $relojData['fecha_guardado'];
 
-                // Agregar el objeto RelojVinted al array
-                $relojesVinted[] = $reloj;
+
+
+                $price = str_replace(',', '.', $reloj['price']); // Eliminar las comas
+                $price = trim($price); // Eliminar espacios en blanco al principio y al final
+
+                // Convertir el precio a formato decimal
+                $price_decimal = floatval($price);
+                // Verificar si el reloj ya existe en la base de datos y su fecha de actualización es anterior a la fecha actual
+                $existingReloj = RelojVinted::where('identificador', $reloj->identificador)
+                    ->where('updated_at', '<', $fecha)
+                    ->first();
+
+                if ($existingReloj) {
+                    // Actualizar los datos del reloj existente en la base de datos con los datos del JSON
+                    $existingReloj->update([
+                        'title' => $reloj->title,
+                        'image_src' => $reloj->image_src,
+                        'price' => $price_decimal,
+                        'brand' => $reloj->brand,
+                        'location' => $reloj->location,
+                        'views' => $reloj->views,
+                        'url' => $reloj->url,
+                        'tipo' => $reloj->tipo
+                    ]);
+                } else {
+                    // Si el reloj no existe en la base de datos o su fecha de actualización es posterior a la fecha actual, agregarlo al array de relojes Vinted
+                    $relojesVinted[] = $reloj;
+                }
             }
 
             // Devolver el array de objetos RelojVinted
             return $relojesVinted;
         } else {
             // Si el archivo no existe, devolver un array vacío
-            Log::info("no se encontro el archivo.");
-
-
+            Log::info("No se encontró el archivo.");
             return [];
         }
     }
@@ -83,9 +106,37 @@ public static function leerJsonVinted()
                 $reloj->views = $relojData['views'];
                 $reloj->url = $relojData['url'];
                 $reloj->identificador = $relojData['identificador'];
+                $reloj->tipo = $relojData['tipo'];
+                $fecha = $relojData['fecha_guardado'];
 
-                // Agregar el objeto RelojWallapop al array
-                $relojesWallapop[] = $reloj;
+
+
+                $price = str_replace(',', '.', $reloj['price']); // Eliminar las comas
+                $price = trim($price); // Eliminar espacios en blanco al principio y al final
+
+                // Convertir el precio a formato decimal
+                $price_decimal = floatval($price);
+                // Verificar si el reloj ya existe en la base de datos y su fecha de actualización es anterior a la fecha actual
+                $existingReloj = RelojWallapop::where('identificador', $reloj->identificador)
+                    ->where('updated_at', '<', $fecha)
+                    ->first();
+
+                if ($existingReloj) {
+                    // Actualizar los datos del reloj existente en la base de datos con los datos del JSON
+                    $existingReloj->update([
+                        'title' => $reloj->title,
+                        'image_src' => $reloj->image_src,
+                        'price' => $price_decimal,
+                        'brand' => $reloj->brand,
+                        'location' => $reloj->location,
+                        'views' => $reloj->views,
+                        'url' => $reloj->url,
+                        'tipo' => $reloj->tipo
+                    ]);
+                } else {
+                    // Si el reloj no existe en la base de datos o su fecha de actualización es posterior a la fecha actual, agregarlo al array de relojes Vinted
+                    $relojesWallapop[] = $reloj;
+                }
             }
 
             // Devolver el array de objetos RelojWallapop

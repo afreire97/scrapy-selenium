@@ -8,6 +8,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
+from datetime import datetime
+
 from selenium.webdriver.chrome.options import Options
 
 
@@ -104,6 +106,8 @@ class WallapopSpider(scrapy.Spider):
 
         # Obtener el elemento <a> dentro del div
         location = location_div.find_element(By.TAG_NAME, "a").text
+        fecha_guardado = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
         item_data = {
             "title": title,
             "image_src": image_src,
@@ -112,6 +116,9 @@ class WallapopSpider(scrapy.Spider):
             "views": views,
             "url": item_url,
             "identificador": identificador,
+            'tipo':2,
+            'fecha_guardado' : fecha_guardado,
+
         }
 
         self.item_data.append(item_data)

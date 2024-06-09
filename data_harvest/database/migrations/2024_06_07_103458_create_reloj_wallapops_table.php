@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('views');
             $table->string('url');
             $table->string('identificador');
+            $table->integer('tipo');
             $table->timestamps();
         });
     }

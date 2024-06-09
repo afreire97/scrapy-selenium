@@ -7,6 +7,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from datetime import datetime
+
 import json
 class VintedSpider(scrapy.Spider):
     name = "vinted"
@@ -87,6 +89,9 @@ class VintedSpider(scrapy.Spider):
         title = title_element.find_element(By.TAG_NAME, 'h2').text
 
         # Agregar el objeto a self.item_data
+        
+        fecha_guardado = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
         self.item_data.append({
             
             'title': title,
@@ -96,7 +101,9 @@ class VintedSpider(scrapy.Spider):
             'location': location,
             'views' : views,
             'url': item_url,
-            'identificador': identificador
+            'identificador': identificador, 
+            'tipo': 1,
+            'fecha_guardado' : fecha_guardado,
         })
 
         # Agregar el objeto a self.item_data

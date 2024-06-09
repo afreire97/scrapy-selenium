@@ -10,4 +10,5 @@ class RelojVinted extends Model
     use HasFactory;
 
     protected $table ='relojes_vinted';
+    protected $guarded = [];
 }

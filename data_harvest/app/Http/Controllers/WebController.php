@@ -13,7 +13,6 @@ class WebController extends Controller
 public function indexAction(){
 
 
-    Log::info("entramos");
 
     $relojesVinted = LectorJson::leerJsonVinted();
     $relojesWallapop = LectorJson::leerJsonWallapop();

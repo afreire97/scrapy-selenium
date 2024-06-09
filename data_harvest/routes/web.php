@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\VintedController;
+use App\Http\Controllers\RelojController;
 use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +18,15 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/dashboard', [WebController::class, 'indexAction'])->name('dashboard');
+
+
+    //RELOJES GUARDADOS
+
+
+    Route::get('/mis-relojes', [RelojController::class, 'index'])->name('relojes.index');
+    Route::post('/guardar-reloj', [RelojController::class, 'guardarReloj'])->name('guardar-reloj');
+    Route::delete('/eliminar-reloj', [RelojController::class, 'destroy'])->name('relojes.destroy');
+
 
 });
 
