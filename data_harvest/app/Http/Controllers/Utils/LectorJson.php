@@ -60,8 +60,6 @@ class LectorJson
                         'title' => $reloj->title,
                         'image_src' => $reloj->image_src,
                         'price' => $price_decimal,
-                        'brand' => $reloj->brand,
-                        'location' => $reloj->location,
                         'views' => $reloj->views,
                         'url' => $reloj->url,
                         'tipo' => $reloj->tipo
@@ -127,11 +125,8 @@ class LectorJson
                         'title' => $reloj->title,
                         'image_src' => $reloj->image_src,
                         'price' => $price_decimal,
-                        'brand' => $reloj->brand,
-                        'location' => $reloj->location,
                         'views' => $reloj->views,
                         'url' => $reloj->url,
-                        'tipo' => $reloj->tipo
                     ]);
                 } else {
                     // Si el reloj no existe en la base de datos o su fecha de actualización es posterior a la fecha actual, agregarlo al array de relojes Vinted

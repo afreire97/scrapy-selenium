@@ -88,6 +88,8 @@
     @if (isset($relojesWallapop))
         @foreach ($relojesWallapop as $watch)
             <div class="col gallery-group-2 mb-3 equal-height">
+                <h3> {{$watch->updated_at}}</h3>
+
                 <div class="image-inner" style="width: fit-content">
                     <a href="{{ $watch->image_src }}" data-lightbox="gallery-group-2">
                         <img src="{{ $watch->image_src }}" class="border-radius-3"
@@ -102,7 +104,7 @@
                         <p class="card-text">Precio: {{ $watch->price }}</p>
                         <p class="card-text">Ubicación: {{ $watch->location }}</p>
                         <p class="card-text">Vistas: {{ $watch->views }}</p>
-                        <a href="{{ $watch->url }}" class="btn btn-primary" target="_blank">Ver más</a>
+                        <a href="{{ $watch->url }}" class="btn btn-primary" target="_blank">Visitar página</a>
                         <button class="btn btn-danger eliminar-reloj" data-bs-toggle="modal"
                         data-bs-target="#modal-dialog-tarea"
                         data-reloj="{{$watch->id }}">Eliminar</button>

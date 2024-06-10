@@ -29,8 +29,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/eliminar-reloj', [RelojController::class, 'destroy'])->name('relojes.destroy');
 
 
-    //SPIDERS
-    Route::get('/cargar-datos', [SpiderController::class, 'ejectuarSpiders'])->name('cargar-datos');
 
 
 
