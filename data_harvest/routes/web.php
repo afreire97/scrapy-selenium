@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RelojController;
+use App\Http\Controllers\SpiderController;
 use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/mis-relojes', [RelojController::class, 'index'])->name('relojes.index');
     Route::post('/guardar-reloj', [RelojController::class, 'guardarReloj'])->name('guardar-reloj');
     Route::delete('/eliminar-reloj', [RelojController::class, 'destroy'])->name('relojes.destroy');
+
+
+    //SPIDERS
+    Route::get('/cargar-datos', [SpiderController::class, 'ejectuarSpiders'])->name('cargar-datos');
+
 
 
 });

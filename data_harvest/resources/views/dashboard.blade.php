@@ -5,58 +5,63 @@
     <x-slot name="header">
 
 
-    <a class="btn btn-warning">Actualizar datos</a>
+        <div id="loading-spinner" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
 
+        <a class="btn btn-warning" id="actualizar-datos-btn">Actualizar datos</a>
 
-
-
-</x-slot>
+    </x-slot>
 
 
 
     <div id="options" class="m-3">
         <div class="d-flex flex-wrap text-nowrap mb-n1" id="filter" data-option-key="filter">
-            <a href="#show-all" class="btn btn-white btn-sm active border-0 me-1 mb-1" data-option-value="*">Show All</a>
+            <a href="#show-all" class="btn btn-white btn-sm active border-0 me-1 mb-1" data-option-value="*">Show
+                All</a>
             <a href="#gallery-group-1" class="btn btn-white btn-sm border-0 me-1 mb-1"
                 data-option-value=".gallery-group-1">Vinted</a>
             <a href="#gallery-group-2" class="btn btn-white btn-sm border-0 me-1 mb-1"
                 data-option-value=".gallery-group-2">Wallapop</a>
         </div>
     </div>
- <!-- Modal para confirmar guardar reloj -->
- <div class="modal fade" id="modal-dialog-tarea">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: #008080; display: flex; justify-content: center; align-items: center;">
-                <h4 class="modal-title">Confirmar Guardar</h4>
+    <!-- Modal para confirmar guardar reloj -->
+    <div class="modal fade" id="modal-dialog-tarea">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header"
+                    style="background-color: #008080; display: flex; justify-content: center; align-items: center;">
+                    <h4 class="modal-title">Confirmar Guardar</h4>
+                </div>
+                <form id="guardarRelojForm" action="{{ route('guardar-reloj') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" id="relojData" name="relojData">
+                        ¿Estás seguro de que quieres guardar este reloj?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button id="confirmarGuardar" type="button" class="btn btn-primary">Confirmar</button>
+                    </div>
+                </form>
             </div>
-            <form id="guardarRelojForm" action="{{ route('guardar-reloj') }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <input type="hidden" id="relojData" name="relojData">
-                    ¿Estás seguro de que quieres guardar este reloj?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button id="confirmarGuardar" type="button" class="btn btn-primary">Confirmar</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
 
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
-<!-- Si hay un mensaje de error -->
-@if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
+    <!-- Si hay un mensaje de error -->
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <div id="gallery"
         class="gallery row row-cols-1 row-cols-md-2 row-cols-xl-4 row-cols-lg-4 d-flex justify-content-center align-content-center">
@@ -81,7 +86,7 @@
                                         página</a>
                                     <button class="btn btn-primary guardar-reloj" data-bs-toggle="modal"
                                         data-bs-target="#modal-dialog-tarea"
-                                        data-reloj="{{$watch }}">Guardar</button>
+                                        data-reloj="{{ $watch }}">Guardar</button>
 
                                 </div>
                             </div>
@@ -109,8 +114,8 @@
                             <p class="card-text">Ubicación: {{ $watch->location }}</p>
                             <p class="card-text">Vistas: {{ $watch->views }}</p>
                             <a href="{{ $watch->url }}" class="btn btn-primary" target="_blank">Ver más</a>
-                            <button class="btn btn-primary guardar-reloj" data-bs-toggle="modal" data-bs-target="#modal-dialog-tarea"
-                                data-reloj="{{ $watch }}">Guardar</button>
+                            <button class="btn btn-primary guardar-reloj" data-bs-toggle="modal"
+                                data-bs-target="#modal-dialog-tarea" data-reloj="{{ $watch }}">Guardar</button>
 
                         </div>
                     </div>
@@ -122,3 +127,33 @@
     @include('scripts.dashboard')
 </x-app-layout>
 
+<script>
+    // Función que se ejecutará cuando se haga clic en el botón "Actualizar datos"
+    document.getElementById('actualizar-datos-btn').addEventListener('click', function() {
+        // Muestra el ícono de carga
+        document.getElementById('loading-spinner').style.display = 'block';
+
+        // Envía una solicitud AJAX al servidor
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/cargar-datos', true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                // Oculta el ícono de carga
+                document.getElementById('loading-spinner').style.display = 'none';
+
+
+                console.log("Todo guay  ");
+                // Actualiza la información en la página
+                // Puedes recargar la página o actualizar solo partes específicas usando AJAX
+                location.reload(); // Recarga la página completa
+            } else {
+                // Maneja errores si la solicitud al servidor falla
+                console.error('Error al ejecutar las arañas:', xhr.statusText);
+            }
+        };
+        xhr.onerror = function() {
+            console.error('Error al ejecutar las arañas.');
+        };
+        xhr.send();
+    });
+</script>

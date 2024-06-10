@@ -55,6 +55,9 @@ class WallapopSpider(scrapy.Spider):
             parsed_items += 1
             if parsed_items >= 16:
                 break
+                
+        driver.quit()
+
 
     def parse_item(self, response):
         options = webdriver.ChromeOptions()
