@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Utils;
 
+use App\Models\RelojViejo;
 use App\Models\RelojVinted;
 use App\Models\RelojWallapop;
 use Illuminate\Support\Facades\File;
@@ -34,13 +35,15 @@ class LectorJson
                 $reloj->title = $relojData['title'];
                 $reloj->image_src = $relojData['image_src'];
                 $reloj->price = $relojData['price'];
-                $reloj->brand = $relojData['brand'];
+
                 $reloj->location = $relojData['location'];
                 $reloj->views = $relojData['views'];
                 $reloj->url = $relojData['url'];
                 $reloj->identificador = $relojData['identificador'];
                 $reloj->tipo = $relojData['tipo'];
                 $fecha = $relojData['fecha_guardado'];
+                $reloj->fecha_obtencion = $fecha;
+
 
 
 
@@ -49,6 +52,8 @@ class LectorJson
 
                 // Convertir el precio a formato decimal
                 $price_decimal = floatval($price);
+
+
                 // Verificar si el reloj ya existe en la base de datos y su fecha de actualización es anterior a la fecha actual
                 $existingReloj = RelojVinted::where('identificador', $reloj->identificador)
                     ->where('updated_at', '<', $fecha)
@@ -56,6 +61,22 @@ class LectorJson
 
                 if ($existingReloj) {
                     // Actualizar los datos del reloj existente en la base de datos con los datos del JSON
+
+
+                    $relojViejo = new RelojViejo();
+                    $relojViejo->title = $existingReloj->title;
+                    $relojViejo->image_src = $existingReloj->image_src;
+                    $relojViejo->price = $existingReloj->price;
+                    $relojViejo->location = $existingReloj->location;
+                    $relojViejo->views = $existingReloj->views;
+                    $relojViejo->url = $existingReloj->url;
+                    $relojViejo->identificador = $existingReloj->identificador;
+                    $relojViejo->tipo = $existingReloj->tipo;
+                    $relojViejo->reloj_vinted_id = $existingReloj->id;
+                    $relojViejo->fecha_obtencion = $existingReloj->fecha_obtencion;
+
+                    $relojViejo->save();
+
                     $existingReloj->update([
                         'title' => $reloj->title,
                         'image_src' => $reloj->image_src,
@@ -64,6 +85,10 @@ class LectorJson
                         'url' => $reloj->url,
                         'tipo' => $reloj->tipo
                     ]);
+
+
+
+
                 } else {
                     // Si el reloj no existe en la base de datos o su fecha de actualización es posterior a la fecha actual, agregarlo al array de relojes Vinted
                     $relojesVinted[] = $reloj;
@@ -105,8 +130,9 @@ class LectorJson
                 $reloj->url = $relojData['url'];
                 $reloj->identificador = $relojData['identificador'];
                 $reloj->tipo = $relojData['tipo'];
-                $fecha = $relojData['fecha_guardado'];
 
+                $fecha = $relojData['fecha_guardado'];
+                $reloj->fecha_obtencion = $fecha;
 
 
                 $price = str_replace(',', '.', $reloj['price']); // Eliminar las comas
@@ -121,6 +147,24 @@ class LectorJson
 
                 if ($existingReloj) {
                     // Actualizar los datos del reloj existente en la base de datos con los datos del JSON
+
+
+                    $relojViejo = new RelojViejo();
+                    $relojViejo->title = $existingReloj->title;
+                    $relojViejo->image_src = $existingReloj->image_src;
+                    $relojViejo->price = $existingReloj->price;
+                    $relojViejo->location = $existingReloj->location;
+                    $relojViejo->views = $existingReloj->views;
+                    $relojViejo->url = $existingReloj->url;
+                    $relojViejo->identificador = $existingReloj->identificador;
+                    $relojViejo->tipo = $existingReloj->tipo;
+                    $relojViejo->fecha_obtencion = $existingReloj->fecha_obtencion;
+                    $relojViejo->reloj_wallapop_id = $existingReloj->id;
+
+
+                    $relojViejo->save();
+
+
                     $existingReloj->update([
                         'title' => $reloj->title,
                         'image_src' => $reloj->image_src,

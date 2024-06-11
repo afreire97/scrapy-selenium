@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('url');
             $table->string('identificador');
             $table->integer('tipo');
+            $table->date('fecha_obtencion');
             $table->timestamps();
         });
     }

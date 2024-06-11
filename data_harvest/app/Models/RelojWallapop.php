@@ -10,4 +10,8 @@ class RelojWallapop extends Model
     use HasFactory;
     protected $table ='relojes_wallapop';
     protected $guarded = [];
+
+    public function relojesViejos(){
+        return $this->hasMany(RelojViejo::class, 'reloj_wallapop_id');
+    }
 }

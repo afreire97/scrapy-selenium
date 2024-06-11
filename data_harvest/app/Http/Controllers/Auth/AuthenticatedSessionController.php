@@ -32,12 +32,11 @@ class AuthenticatedSessionController extends Controller
 
 
 
-        $relojesVinted = LectorJson::leerJsonVinted();
 
 
 
 
-        return redirect()->intended(route('dashboard', ['relojesVinted' => $relojesVinted]));
+        return redirect()->intended(route('dashboard'));
     }
 
     /**

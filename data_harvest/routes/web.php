@@ -28,8 +28,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/guardar-reloj', [RelojController::class, 'guardarReloj'])->name('guardar-reloj');
     Route::delete('/eliminar-reloj', [RelojController::class, 'destroy'])->name('relojes.destroy');
 
+//RELOJES VIEJOS
 
+    Route::get('/relojes-viejos-vinted/{reloj}', [RelojController::class, 'showRelojesViejosV'])->name('relojesViejosV');
+    Route::get('/relojes-viejos-wallapop/{reloj}', [RelojController::class, 'showRelojesViejosW'])->name('relojesViejosW');
 
+    Route::get('/datos-relojes-viejos-vinted/{reloj}',[ RelojController::class, 'datosRelojesViejosVinted'])->name('datosRelojesViejosVinted');
+    Route::get('/datos-relojes-viejos-wallapop/{reloj}', [RelojController::class,'datosRelojesViejosWallapop'])->name('datosRelojesViejosWallapop');
 
 
 });

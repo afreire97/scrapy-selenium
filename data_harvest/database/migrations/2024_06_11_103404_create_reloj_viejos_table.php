@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('relojes_vinted', function (Blueprint $table) {
+        Schema::create('relojes_viejos', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('image_src');
@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('identificador');
             $table->integer('tipo');
             $table->date('fecha_obtencion');
+            $table->foreignId('reloj_vinted_id')->nullable()->constrained('relojes_vinted')->onDelete('cascade');
+            $table->foreignId('reloj_wallapop_id')->nullable()->constrained('relojes_wallapop')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('relojes_vinted');
+        Schema::dropIfExists('relojes_viejos');
     }
 };

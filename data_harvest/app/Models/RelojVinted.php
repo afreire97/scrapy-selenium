@@ -11,4 +11,9 @@ class RelojVinted extends Model
 
     protected $table ='relojes_vinted';
     protected $guarded = [];
+
+
+    public function relojesViejos(){
+        return $this->hasMany(RelojViejo::class, 'reloj_vinted_id');
+    }
 }
