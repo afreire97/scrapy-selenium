@@ -45,3 +45,35 @@
         });
     });
         </script>
+
+<script>
+    // Función para calcular el tiempo restante hasta la próxima hora en punto y 7 minutos
+    const getTimeToNextHourPlusSeven = () => {
+        const now = new Date();
+        let nextHourPlusSeven;
+
+        if (now.getMinutes() < 7) {
+            nextHourPlusSeven = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), 7, 0, 0);
+        } else {
+            nextHourPlusSeven = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 7, 0, 0);
+        }
+
+        return nextHourPlusSeven - now;
+    };
+
+    // Función para recargar la página y luego establecer un temporizador para recargas cada hora y 7 minutos
+    const refreshAtNextHourPlusSeven = () => {
+        const timeToNextHourPlusSeven = getTimeToNextHourPlusSeven();
+
+        setTimeout(() => {
+            location.reload();
+            // Configurar un temporizador para recargar la página cada hora después de la recarga inicial
+            setInterval(() => {
+                location.reload();
+            }, 3600000); // 3600000 ms = 1 hora
+        }, timeToNextHourPlusSeven);
+    };
+
+    // Llamar a la función para iniciar el proceso
+    refreshAtNextHourPlusSeven();
+</script>
