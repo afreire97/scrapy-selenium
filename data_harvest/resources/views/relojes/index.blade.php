@@ -97,11 +97,15 @@
                                             <span style="color: red; font-size: 16px;">
                                                 ({{ $relojViejoMasReciente->price - $watch->price }})
                                             </span>
-                                        @else
+                                            @else
                                             Precio: <span style="color: black; font-size: 16px;">
                                                 {{ $watch->price }}
                                             </span>
                                         @endif
+                                    @else
+                                        Precio: <span style="color: black; font-size: 16px;">
+                                            {{ $watch->price }}
+                                        </span>
                                     @endif
                                 </p>
 
@@ -121,9 +125,11 @@
                                             <span>
                                                 antes ({{ $relojViejoMasViejo->views }})
                                             </span>
-                                        @else
+                                            @else
                                             {{ $watch->views }}
                                         @endif
+                                    @else
+                                        {{ $watch->views }}
                                     @endif
 
 
@@ -170,26 +176,33 @@
                             <h5 class="card-title">{{ $watch->brand }}</h5>
                             <p class="card-text">Ubicación: {{ $watch->location }}</p>
                             <p class="card-text">
-                                @if ($watch->price > $relojViejoMasReciente->price)
-                                    Precio: <span style="color: green; font-size: 16px;">
-                                        {{ $watch->price }}
-                                    </span>
+                                @if (isset($relojViejoMasReciente) )
+                                    @if ($watch->price > $relojViejoMasReciente->price)
+                                        Precio: <span style="color: green; font-size: 16px;">
+                                            {{ $watch->price }}
+                                        </span>
 
-                                    <img style="width: 7%; display: inline-block; "
-                                        src="{{ asset('icons/incrementar.png') }}" alt="Icono Precio Subió"> <span
-                                        style="color: green; font-size: 16px;">
-                                        ({{ $watch->price - $relojViejoMasReciente->price }})
-                                    </span>
-                                @elseif ($watch->price < $relojViejoMasReciente->price)
-                                    Precio: <span style="color: red; font-size: 16px;">
-                                        {{ $watch->price }}
-                                    </span>
+                                        <img style="width: 7%; display: inline-block; "
+                                            src="{{ asset('icons/incrementar.png') }}" alt="Icono Precio Subió">
+                                        <span style="color: green; font-size: 16px;">
+                                            ({{ $watch->price - $relojViejoMasReciente->price }})
+                                        </span>
+                                    @elseif ($watch->price < $relojViejoMasReciente->price)
+                                        Precio: <span style="color: red; font-size: 16px;">
+                                            {{ $watch->price }}
+                                        </span>
 
-                                    <img style="width: 7%; display: inline-block; "
-                                        src="{{ asset('icons/disminucion.png') }}" alt="Icono Precio Disminuyó">
-                                    <span style="color: red; font-size: 16px;">
-                                        ({{ $relojViejoMasReciente->price - $watch->price }})
-                                    </span>
+                                        <img style="width: 7%; display: inline-block; "
+                                            src="{{ asset('icons/disminucion.png') }}" alt="Icono Precio Disminuyó">
+                                        <span style="color: red; font-size: 16px;">
+                                            ({{ $relojViejoMasReciente->price - $watch->price }})
+                                        </span>
+                                        @else
+                                        Precio: <span style="color: black; font-size: 16px;">
+                                            {{ $watch->price }}
+                                        </span>
+
+                                    @endif
                                 @else
                                     Precio: <span style="color: black; font-size: 16px;">
                                         {{ $watch->price }}
@@ -199,19 +212,31 @@
 
 
                             <p class="card-text">
-                                Vistas: @if ($watch->views > $relojViejoMasViejo->views)
-                                    <span style="color: green; font-size: 16px;">
-                                        {{ $watch->views }}
-                                    </span>
+                                Vistas:
 
-                                    <img style="width: 7%; display: inline-block;"
-                                        src="{{ asset('icons/incrementar.png') }}" alt="Icono Precio Subió"> <span>
-                                        antes ({{ $relojViejoMasViejo->views }})
-                                    </span>
+
+                                @if (isset($relojViejoMasViejo))
+                                    @if ($watch->views > $relojViejoMasViejo->views)
+                                        <span style="color: green; font-size: 16px;">
+                                            {{ $watch->views }}
+                                        </span>
+
+                                        <img style="width: 7%; display: inline-block;"
+                                            src="{{ asset('icons/incrementar.png') }}" alt="Icono Precio Subió">
+                                        <span>
+                                             (antes {{ $relojViejoMasViejo->views }})
+                                        </span>
+                                        @else
+                                        {{ $watch->views }}
+                                    @endif
                                 @else
                                     {{ $watch->views }}
                                 @endif
+
+
+
                             </p>
+
                             <a href="{{ $watch->url }}" class="btn btn-primary" target="_blank">Visitar página</a>
                             <a class="btn btn-primary me-2" href="{{ route('relojesViejosW', ['reloj' => $watch]) }}"
                                 target="_blank">Información</a>
