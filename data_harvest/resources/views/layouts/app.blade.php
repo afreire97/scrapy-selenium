@@ -13,6 +13,14 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <style>
+            body {
+                background-image: url('https://areajugones.sport.es/wp-content/uploads/2022/06/dragonite-pokemn-1080x609.jpg');
+                background-size: cover;
+                background-position: center;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">

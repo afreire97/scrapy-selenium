@@ -2,7 +2,6 @@
 
     @include('styles.gallery')
 
-    @include('styles.gallery')
 
     <div id="options" class="m-3">
         <div class="d-flex flex-wrap text-nowrap mb-n1" id="filter" data-option-key="filter">
