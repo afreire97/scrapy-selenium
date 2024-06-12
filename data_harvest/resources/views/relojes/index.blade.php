@@ -52,102 +52,92 @@
     </div>
 
 
+    <div class="container px-5"> <!-- Added container with px-3 for padding -->
+
     <div id="gallery"
-        class="gallery row row-cols-1 row-cols-md-2 row-cols-xl-4 row-cols-lg-4 d-flex justify-content-center align-content-center">
+        class="gallery row row-cols-1 row-cols-md-3 row-cols-xl-4 row-cols-lg-4 d-flex align-items-stretch">
+
         @if (isset($relojesVinted))
             @foreach ($relojesVinted as $watch)
-                @php
-                    $relojViejoMasViejo = $watch->relojesViejos()->oldest('created_at')->first();
-                    $relojViejoMasReciente = $watch->relojesViejos()->latest('created_at')->first();
-                @endphp
-                <div class="col gallery-group-1 mb-3 equal-height">
-                    <h3> {{ $watch->updated_at }}</h3>
-
-                    <div class="image-inner" style="width: fit-content">
-                        <a href="{{ $watch->image_src }}" data-lightbox="gallery-group-1">
-                            <img src="{{ $watch->image_src }}" class="border-radius-3" alt="Imagen de reloj "
-                                style="height: 550px; width: 100%">
-                        </a>
-                        <div class="image-info" style="width: 80%">
-                            <h5 class="card-title mb-3 mt-2">{{ $watch->brand }}</h5>
-                            <hr>
-                            <div class="desc">
-                                <h5 class="title">{{ $watch->title }}</h5>
-                                <p class="card-text">Ubicación: {{ $watch->location }}</p>
-                                <p class="card-text">
+                <div class="col gallery-group-1 mb-2 equal-height px-1"> <!-- px-1 adds minimal horizontal padding -->
+                    <div class="w-full py-4">
+                        <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+                            <div class="image-inner bg-cover bg-center h-56 p-2 " style="height: 300px;">
+                                <a href="{{ $watch->image_src }}" data-lightbox="gallery-group-1">
+                                    <img src="{{ $watch->image_src }}" class="border-radius-3"
+                                        style="height: 300px; width: 100%; object-fit: cover;"
+                                        alt="Imagen de reloj {{ $watch->title }}">
+                                </a>
+                            </div>
+                            <div class="p-2">
+                                <hr>
+                                <p class="uppercase tracking-wide text-sm font-bold text-gray-700 mt-2">
+                                    {{ $watch->title }}</p>
+                                <hr>
+                                <p class="text-3xl text-gray-900">
+                                    @php
+                                        $relojViejoMasReciente = $watch->relojesViejos()->latest('created_at')->first();
+                                    @endphp
                                     @if (isset($relojViejoMasReciente))
                                         @if ($watch->price > $relojViejoMasReciente->price)
-                                            Precio: <span style="color: green; font-size: 16px;">
-                                                {{ $watch->price }}
-                                            </span>
-
-                                            <img style="width: 7%; display: inline-block; "
-                                                src="{{ asset('icons/incrementar.png') }}" alt="Icono Precio Subió">
-                                            <span style="color: green; font-size: 16px;">
-                                                ({{ $watch->price - $relojViejoMasReciente->price }})
-                                            </span>
+                                            <span style="color: green;">{{ $watch->price }}</span>
+                                            <img src="{{ asset('icons/incrementar.png') }}" class="inline-block w-7"
+                                                alt="Icono Precio Subió">
+                                            <span
+                                                style="color: green;">(+{{ $watch->price - $relojViejoMasReciente->price }})</span>
                                         @elseif ($watch->price < $relojViejoMasReciente->price)
-                                            Precio: <span style="color: red; font-size: 16px;">
-                                                {{ $watch->price }}
-                                            </span>
-
-                                            <img style="width: 7%; display: inline-block; "
-                                                src="{{ asset('icons/disminucion.png') }}"
+                                            <span style="color: red;">{{ $watch->price }}</span>
+                                            <img src="{{ asset('icons/disminucion.png') }}" class="inline-block w-7"
                                                 alt="Icono Precio Disminuyó">
-                                            <span style="color: red; font-size: 16px;">
-                                                ({{ $relojViejoMasReciente->price - $watch->price }})
-                                            </span>
-                                            @else
-                                            Precio: <span style="color: black; font-size: 16px;">
-                                                {{ $watch->price }}
-                                            </span>
+                                            <span
+                                                style="color: red;">(-{{ $relojViejoMasReciente->price - $watch->price }})</span>
+                                        @else
+                                            <span style="color: black;">{{ $watch->price }}</span>
                                         @endif
                                     @else
-                                        Precio: <span style="color: black; font-size: 16px;">
-                                            {{ $watch->price }}
-                                        </span>
+                                        <span style="color: black;">{{ $watch->price }}</span>
                                     @endif
+                                    €
                                 </p>
-
-
-                                <p class="card-text">
-                                    Vistas:
-
-
+                                <p class="text-gray-700"><i class="fas fa-map-marker-alt"></i> {{ $watch->location }}
+                                </p>
+                                <p class="text-gray-700"><i class="fas fa-eye"></i> Vistas:
+                                    @php
+                                        $relojViejoMasViejo = $watch->relojesViejos()->oldest('created_at')->first();
+                                    @endphp
                                     @if (isset($relojViejoMasViejo))
                                         @if ($watch->views > $relojViejoMasViejo->views)
-                                            <span style="color: green; font-size: 16px;">
-                                                {{ $watch->views }}
-                                            </span>
-
-                                            <img style="width: 7%; display: inline-block;"
-                                                src="{{ asset('icons/incrementar.png') }}" alt="Icono Precio Subió">
-                                            <span>
-                                                antes ({{ $relojViejoMasViejo->views }})
-                                            </span>
-                                            @else
+                                            <span style="color: green;">{{ $watch->views }}</span>
+                                            <img src="{{ asset('icons/incrementar.png') }}" class="inline-block w-7"
+                                                alt="Icono Precio Subió">
+                                            <span>antes ({{ $relojViejoMasViejo->views }})</span>
+                                        @else
                                             {{ $watch->views }}
                                         @endif
                                     @else
                                         {{ $watch->views }}
                                     @endif
-
-
-
                                 </p>
 
-
-                                <div class="buttons d-flex justify-content-center p-1">
-                                    <a class="btn btn-primary me-2" href="{{ $watch->url }}" target="_blank">Visitar
-                                        página</a>
-                                    <a class="btn btn-primary me-2"
-                                        href="{{ route('relojesViejosV', ['reloj' => $watch]) }}">Información</a>
-                                    <button class="btn btn-danger eliminar-reloj" data-bs-toggle="modal"
-                                        data-bs-target="#modal-dialog-tarea"
-                                        data-reloj="{{ $watch->id }}">Eliminar</button>
-
+                            <p class="text-gray-700"><i class="fas fa-calendar"></i> Última actualización: {{$watch->updated_at}}</p>
+                            <p class="text-gray-700"><i class="fas fa-calendar"></i> Fecha de obtención: {{$watch->fecha_obtencion}}</p>
+                            </div>
+                            <div class="flex p-2 border-t border-gray-300 text-gray-700 justify-content-between align-items-center">
+                                <div class="d-flex">
+                                    <a href="{{ $watch->url }}" class="btn btn-primary mr-2" target="_blank">
+                                        Ver más
+                                    </a>
+                                    <a class="btn btn-primary mr-2" href="{{ route('relojesViejosV', ['reloj' => $watch]) }}" target="_blank">
+                                        Información
+                                    </a>
+                                </div>
+                                <div>
+                                    <button class="btn btn-danger eliminar-reloj" data-bs-toggle="modal" data-bs-target="#modal-dialog-tarea" data-reloj="{{ $watch->id }}">
+                                        Eliminar
+                                    </button>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -155,100 +145,92 @@
         @endif
 
         @if (isset($relojesWallapop))
-            @foreach ($relojesWallapop as $watch)
-                @php
-                    $relojViejoMasViejo = $watch->relojesViejos()->oldest('created_at')->first();
-                    $relojViejoMasReciente = $watch->relojesViejos()->latest('created_at')->first();
-                @endphp
-                <div class="col gallery-group-2 mb-3 equal-height">
-                    <h3> {{ $watch->updated_at }}</h3>
-
-                    <div class="image-inner" style="width: fit-content">
-                        <a href="{{ $watch->image_src }}" data-lightbox="gallery-group-2">
-                            <img src="{{ $watch->image_src }}" class="border-radius-3"
-                                style="height: 550px; width: 100%" alt="Imagen de reloj {{ $watch->brand }}">
-                        </a>
-                    </div>
-                    <div class="image-info " style="max-width: 80%">
-                        <h5 class="title">{{ $watch->title }}</h5>
-                        <div class="d-flex align-items-center mb-2"></div>
-                        <div class="desc">
-                            <h5 class="card-title">{{ $watch->brand }}</h5>
-                            <p class="card-text">Ubicación: {{ $watch->location }}</p>
-                            <p class="card-text">
-                                @if (isset($relojViejoMasReciente) )
+        @foreach ($relojesWallapop as $watch)
+            <div class="col gallery-group-2 mb-2 equal-height px-1"> <!-- px-1 adds minimal horizontal padding -->
+                <div class="w-full py-4">
+                    <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+                        <div class="image-inner bg-cover bg-center h-56 p-2" style="height: 300px;">
+                            <a href="{{ $watch->image_src }}" data-lightbox="gallery-group-2">
+                                <img src="{{ $watch->image_src }}" class="border-radius-3"
+                                    style="height: 300px; width: 100%; object-fit: cover;"
+                                    alt="Imagen de reloj {{ $watch->title }}">
+                            </a>
+                        </div>
+                        <div class="p-2">
+                            <hr>
+                            <p class="uppercase tracking-wide text-sm font-bold text-gray-700 mt-2">
+                                {{ $watch->title }}</p>
+                            <hr>
+                            <p class="text-3xl text-gray-900">
+                                @php
+                                    $relojViejoMasReciente = $watch->relojesViejos()->oldest('created_at')->first();
+                                @endphp
+                                @if (isset($relojViejoMasReciente))
                                     @if ($watch->price > $relojViejoMasReciente->price)
-                                        Precio: <span style="color: green; font-size: 16px;">
-                                            {{ $watch->price }}
-                                        </span>
-
-                                        <img style="width: 7%; display: inline-block; "
-                                            src="{{ asset('icons/incrementar.png') }}" alt="Icono Precio Subió">
-                                        <span style="color: green; font-size: 16px;">
-                                            ({{ $watch->price - $relojViejoMasReciente->price }})
-                                        </span>
+                                        <span style="color: green;">{{ $watch->price }}</span>
+                                        <img src="{{ asset('icons/incrementar.png') }}" class="inline-block w-7"
+                                            alt="Icono Precio Subió">
+                                        <span
+                                            style="color: green;">(+{{ $watch->price - $relojViejoMasReciente->price }})</span>
                                     @elseif ($watch->price < $relojViejoMasReciente->price)
-                                        Precio: <span style="color: red; font-size: 16px;">
-                                            {{ $watch->price }}
-                                        </span>
-
-                                        <img style="width: 7%; display: inline-block; "
-                                            src="{{ asset('icons/disminucion.png') }}" alt="Icono Precio Disminuyó">
-                                        <span style="color: red; font-size: 16px;">
-                                            ({{ $relojViejoMasReciente->price - $watch->price }})
-                                        </span>
-                                        @else
-                                        Precio: <span style="color: black; font-size: 16px;">
-                                            {{ $watch->price }}
-                                        </span>
-
+                                        <span style="color: red;">{{ $watch->price }}</span>
+                                        <img src="{{ asset('icons/disminucion.png') }}" class="inline-block w-7"
+                                            alt="Icono Precio Disminuyó">
+                                        <span
+                                            style="color: red;">(-{{ $relojViejoMasReciente->price - $watch->price }})</span>
+                                    @else
+                                        <span style="color: black;">{{ $watch->price }}</span>
                                     @endif
                                 @else
-                                    Precio: <span style="color: black; font-size: 16px;">
-                                        {{ $watch->price }}
-                                    </span>
+                                    <span style="color: black;">{{ $watch->price }}</span>
                                 @endif
+                                €
                             </p>
-
-
-                            <p class="card-text">
-                                Vistas:
-
-
+                            <p class="text-gray-700"><i class="fas fa-map-marker-alt"></i> {{ $watch->location }}
+                            </p>
+                            <p class="text-gray-700"><i class="fas fa-eye"></i> Vistas:
+                                @php
+                                    $relojViejoMasViejo = $watch->relojesViejos()->oldest('created_at')->first();
+                                @endphp
                                 @if (isset($relojViejoMasViejo))
                                     @if ($watch->views > $relojViejoMasViejo->views)
-                                        <span style="color: green; font-size: 16px;">
-                                            {{ $watch->views }}
-                                        </span>
-
-                                        <img style="width: 7%; display: inline-block;"
-                                            src="{{ asset('icons/incrementar.png') }}" alt="Icono Precio Subió">
-                                        <span>
-                                             (antes {{ $relojViejoMasViejo->views }})
-                                        </span>
-                                        @else
+                                        <span style="color: green;">{{ $watch->views }}</span>
+                                        <img src="{{ asset('icons/incrementar.png') }}" class="inline-block w-7"
+                                            alt="Icono Precio Subió">
+                                        <span>antes ({{ $relojViejoMasViejo->views }})</span>
+                                    @else
                                         {{ $watch->views }}
                                     @endif
                                 @else
                                     {{ $watch->views }}
                                 @endif
-
-
-
                             </p>
 
-                            <a href="{{ $watch->url }}" class="btn btn-primary" target="_blank">Visitar página</a>
-                            <a class="btn btn-primary me-2" href="{{ route('relojesViejosW', ['reloj' => $watch]) }}"
-                                target="_blank">Información</a>
-                            <button class="btn btn-danger eliminar-reloj" data-bs-toggle="modal"
-                                data-bs-target="#modal-dialog-tarea"
-                                data-reloj="{{ $watch->id }}">Eliminar</button>
-
+                            <p class="text-gray-700"><i class="fas fa-calendar"></i> Última actualización: {{$watch->updated_at}}</p>
+                            <p class="text-gray-700"><i class="fas fa-calendar"></i> Fecha de obtención: {{$watch->fecha_obtencion}}</p>
+                        </div>
+                        <div class="flex p-2 border-t border-gray-300 text-gray-700 justify-content-between align-items-center">
+                            <div class="d-flex">
+                                <a href="{{ $watch->url }}" class="btn btn-primary mr-2" target="_blank">
+                                    Ver más
+                                </a>
+                                <a class="btn btn-primary mr-2" href="{{ route('relojesViejosW', ['reloj' => $watch]) }}" target="_blank">
+                                    Información
+                                </a>
+                            </div>
+                            <div>
+                                <button class="btn btn-danger eliminar-reloj" data-bs-toggle="modal" data-bs-target="#modal-dialog-tarea" data-reloj="{{ $watch->id }}">
+                                    Eliminar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            @endforeach
-        @endif
+            </div>
+        @endforeach
+    @endif
+
+    </div>
     </div>
 
 

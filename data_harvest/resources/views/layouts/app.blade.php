@@ -33,5 +33,6 @@
             </main>
         </div>
 
+        @include('scripts.app')
     </body>
 </html>
