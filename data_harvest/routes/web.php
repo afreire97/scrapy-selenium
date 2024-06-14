@@ -7,11 +7,13 @@ use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 
 Route::middleware('auth')->group(function () {
+
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -28,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/guardar-reloj', [RelojController::class, 'guardarReloj'])->name('guardar-reloj');
     Route::delete('/eliminar-reloj', [RelojController::class, 'destroy'])->name('relojes.destroy');
 
-//RELOJES VIEJOS
+    //RELOJES VIEJOS
 
     Route::get('/relojes-viejos-vinted/{reloj}', [RelojController::class, 'showRelojesViejosV'])->name('relojesViejosV');
     Route::get('/relojes-viejos-wallapop/{reloj}', [RelojController::class, 'showRelojesViejosW'])->name('relojesViejosW');

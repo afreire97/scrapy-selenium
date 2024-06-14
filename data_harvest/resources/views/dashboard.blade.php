@@ -3,7 +3,9 @@
     @include('styles.gallery')
 
 
-    <div id="options" class="m-3">
+
+
+    <div id="options" class="m-3 pt-5 ps-5">
         <div class="d-flex flex-wrap text-nowrap mb-n1" id="filter" data-option-key="filter">
             <a href="#show-all" class="btn btn-white btn-sm active border-0 me-1 mb-1" data-option-value="*">Show All</a>
             <a href="#gallery-group-1" class="btn btn-white btn-sm border-0 me-1 mb-1"
@@ -13,7 +15,6 @@
         </div>
 
     </div>
-
 
     <!-- Modal para confirmar guardar reloj -->
     <div class="modal fade" id="modal-dialog-tarea">
@@ -40,6 +41,10 @@
 
 
     <div class="container px-5">
+
+
+
+
         <div id="gallery"
             class="gallery row row-cols-1 row-cols-md-3 row-cols-xl-4 row-cols-lg-4 d-flex align-items-stretch">
             @if (isset($relojesVinted))
@@ -68,12 +73,12 @@
                                 <div
                                     class="flex p-2 border-t border-gray-300 text-gray-700 d-flex justify-content-between align-items-center">
                                     <div>
-                                        <a href="{{ $watch->url }}" class="btn btn-primary" target="_blank">
+                                        <a href="{{ $watch->url }}" class="btn custom-btn" target="_blank">
                                             <i class="fas fa-external-link-alt"></i> Ver más
                                         </a>
                                     </div>
                                     <div>
-                                        <button class="btn btn-primary guardar-reloj" data-bs-toggle="modal"
+                                        <button class="btn color-reloj guardar-reloj custom-btn" data-bs-toggle="modal"
                                             data-bs-target="#modal-dialog-tarea" data-reloj="{{ $watch }}">
                                             Guardar
                                         </button>
