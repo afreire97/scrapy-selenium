@@ -7,8 +7,8 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <i class="fa-solid fa-clock custom-clock-icon"></i>
+                    <a href="{{ route('dashboard') }}" >
+                        <span ><img src="{{asset('img/logo.png')}}" style="width: 37%" alt="Logo de la aplicación"></span>
                     </a>
 
                 </div>
