@@ -33,81 +33,76 @@ class VintedSpider(scrapy.Spider):
 
         parsed_items = 0
 
-        # Itera sobre los elementos y extrae los datos
+        urls = []
         for item in feed_items:
             url = item.find_element(By.CSS_SELECTOR, 'a.new-item-box__overlay--clickable').get_attribute('href')
-            yield SeleniumRequest(url=url, callback=self.parse_item)
+            urls.append(url)
             parsed_items += 1
             if parsed_items >= 16:
                 break
+
         # Cierra el controlador de Selenium
         driver.quit()
 
+        # Itera sobre las URLs y hace los SeleniumRequest
+        for url in urls:
+            yield SeleniumRequest(url=url, callback=self.parse_item)
+
     def parse_item(self, response):
+    # Crea el controlador de Selenium
         options = webdriver.ChromeOptions()
         options.add_argument('headless')
         driver = webdriver.Chrome(options=options)
 
+        # Navega a la URL
         driver.get(response.url)
 
+        # Extrae los datos que requieren el uso del controlador de Selenium
         brand_element = driver.find_element(By.CSS_SELECTOR, 'a.inverse.u-disable-underline-without-hover')
-
         brand = brand_element.find_element(By.TAG_NAME, 'span').text
 
         location_element = driver.find_element(By.CSS_SELECTOR, 'div[data-testid="item-details-location"] div.details-list__item-value')
-
         location = location_element.text
+
         view_count_element = driver.find_element(By.CSS_SELECTOR, 'div[data-testid="item-details-view_count"] div.details-list__item-value')
-        
-        
+        views = view_count_element.text
+
         price_container_element = driver.find_element(By.CSS_SELECTOR, 'div[data-testid="item-sidebar-price-container"]')
         price_element = price_container_element.find_element(By.CSS_SELECTOR, 'div.u-flexbox.u-align-items-center[data-testid="item-price"]')
-
         price_text_element = price_element.find_element(By.TAG_NAME, 'h3')
-        price = price_text_element.text
-        price = price.replace('€', '')
+        price = price_text_element.text.replace('€', '')
 
-          
-        
-        
         image_div = driver.find_element(By.CSS_SELECTOR, 'div[data-testid="item-photo-1"]')
         image_src = image_div.find_element(By.TAG_NAME, 'img').get_attribute('src')
 
-        views = view_count_element.text
+        title_element = driver.find_element(By.CSS_SELECTOR, 'div[itemprop="name"]')
+        title = title_element.find_element(By.TAG_NAME, 'h2').text
 
+        # Cierra el controlador de Selenium
+        driver.quit()
+
+        # Extrae el identificador de la URL
         item_url = response.url
-
         match = re.search(r'items/(\d+)-', item_url)
         if match:
             identificador = match.group(1)
         else:
             identificador = None
 
-
-        title_element = driver.find_element(By.CSS_SELECTOR, 'div[itemprop="name"]')
-
-        title = title_element.find_element(By.TAG_NAME, 'h2').text
-
-        
+        # Guarda los datos en el diccionario
         fecha_guardado = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
         self.item_data.append({
-            
             'title': title,
-            'image_src' : image_src,
+            'image_src': image_src,
             'price': price,
             'brand': brand,
             'location': location,
-            'views' : views,
+            'views': views,
             'url': item_url,
-            'identificador': identificador, 
+            'identificador': identificador,
             'tipo': 1,
-            'fecha_guardado' : fecha_guardado,
+            'fecha_guardado': fecha_guardado,
         })
-
-
-        # Cierra el controlador de Selenium
-        driver.quit()
     def close(self, reason):
         if reason == 'finished':
             with open('vinted.json', 'w', encoding='utf-8') as f:

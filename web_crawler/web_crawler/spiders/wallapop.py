@@ -43,19 +43,23 @@ class WallapopSpider(scrapy.Spider):
 
         parsed_items = 0
 
+      # Itera sobre los elementos y extrae las URLs
+        urls = []
         for item in items:
             item_text = item.get_attribute("title")
             item_url = item.get_attribute("href")
-
-            yield SeleniumRequest(
-                url=item_url, callback=self.parse_item, meta={"item_text": item_text}
-            )
+            urls.append((item_text, item_url))
             parsed_items += 1
             if parsed_items >= 16:
                 break
-                
+
+        # Cierra el controlador de Selenium
         driver.quit()
 
+        for item_text, item_url in urls:
+            yield SeleniumRequest(
+                url=item_url, callback=self.parse_item, meta={"item_text": item_text}
+            )
 
     def parse_item(self, response):
         options = webdriver.ChromeOptions()

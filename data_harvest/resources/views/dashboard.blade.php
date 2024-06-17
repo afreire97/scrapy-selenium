@@ -115,12 +115,12 @@
                                 <div
                                     class="flex p-2 border-t border-gray-300 text-gray-700 d-flex justify-content-between align-items-center">
                                     <div>
-                                        <a href="{{ $watch->url }}" class="btn btn-primary" target="_blank">
+                                        <a href="{{ $watch->url }}" class="btn btn-primary custom-btn" target="_blank">
                                             <i class="fas fa-external-link-alt"></i> Ver más
                                         </a>
                                     </div>
                                     <div>
-                                        <button class="btn btn-primary guardar-reloj" data-bs-toggle="modal"
+                                        <button class="btn btn-primary guardar-reloj custom-btn" data-bs-toggle="modal"
                                             data-bs-target="#modal-dialog-tarea" data-reloj="{{ $watch }}">
                                             Guardar
                                         </button>

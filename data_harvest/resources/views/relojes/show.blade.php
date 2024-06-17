@@ -1,5 +1,4 @@
 <x-app-layout>
-    @include('styles.gallery')
     @include('styles.relojes-show')
 
 
