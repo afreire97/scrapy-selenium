@@ -1,7 +1,7 @@
 <x-app-layout>
 
 
-    @include('styles.gallery')
+    @include('styles.relojes-index')
 
 
     @if (session('success'))
@@ -21,8 +21,8 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header"
-                    style="background-color: #008080; display: flex; justify-content: center; align-items: center;">
-                    <h4 class="modal-title text-white">Confirmar eliminación</h4>
+                style="background-color: #003780; display: flex; justify-content: center; align-items: center;">
+                <h4 class="modal-title text-white">Confirmar Guardar</h4>
                 </div>
                 <form id="eliminarRelojForm" action="{{ route('relojes.destroy') }}" method="POST">
                     @csrf
@@ -40,26 +40,27 @@
         </div>
     </div>
 
-    <div id="options" class="m-3">
+
+    <div id="options" class="m-3 pt-5 ps-5">
         <div class="d-flex flex-wrap text-nowrap mb-n1" id="filter" data-option-key="filter">
-            <a href="#show-all" class="btn btn-white btn-sm active border-0 me-1 mb-1" data-option-value="*">Show
-                All</a>
+            <a href="#show-all" class="btn btn-white btn-sm active border-0 me-1 mb-1" data-option-value="*">Todos</a>
             <a href="#gallery-group-1" class="btn btn-white btn-sm border-0 me-1 mb-1"
                 data-option-value=".gallery-group-1">Vinted</a>
             <a href="#gallery-group-2" class="btn btn-white btn-sm border-0 me-1 mb-1"
                 data-option-value=".gallery-group-2">Wallapop</a>
         </div>
+
     </div>
 
 
-    <div class="container px-5"> <!-- Added container with px-3 for padding -->
+    <div class="container px-5">
 
     <div id="gallery"
         class="gallery row row-cols-1 row-cols-md-3 row-cols-xl-4 row-cols-lg-4 d-flex align-items-stretch">
 
         @if (isset($relojesVinted))
             @foreach ($relojesVinted as $watch)
-                <div class="col gallery-group-1 mb-2 equal-height px-1"> <!-- px-1 adds minimal horizontal padding -->
+                <div class="col gallery-group-1 mb-2 equal-height px-1">
                     <div class="w-full py-4">
                         <div class="bg-white shadow-xl rounded-lg overflow-hidden">
                             <div class="image-inner bg-cover bg-center h-56 p-2 " style="height: 300px;">
@@ -122,20 +123,17 @@
                             <p class="text-gray-700"><i class="fas fa-calendar"></i> Última actualización: {{$watch->updated_at}}</p>
                             <p class="text-gray-700"><i class="fas fa-calendar"></i> Fecha de obtención: {{$watch->fecha_obtencion}}</p>
                             </div>
-                            <div class="flex p-2 border-t border-gray-300 text-gray-700 justify-content-between align-items-center">
-                                <div class="d-flex">
-                                    <a href="{{ $watch->url }}" class="btn btn-primary mr-2" target="_blank">
-                                        Ver más
-                                    </a>
-                                    <a class="btn btn-primary mr-2" href="{{ route('relojesViejosV', ['reloj' => $watch]) }}" target="_blank">
+                            <div class="p-3  justify-content-center  row row-cols-3 ">
+
+                                    <a href="{{ $watch->url }}" class="custom-btn mr-2  col " target="_blank">Ver</a>
+                                    <a class="custom-btn mr-2  col" href="{{ route('relojesViejosV', ['reloj' => $watch]) }}" target="_blank">
                                         Información
                                     </a>
-                                </div>
-                                <div>
-                                    <button class="btn btn-danger eliminar-reloj" data-bs-toggle="modal" data-bs-target="#modal-dialog-tarea" data-reloj="{{ $watch->id }}">
+
+                                    <button class="btn-danger eliminar-reloj px-3 col" data-bs-toggle="modal" data-bs-target="#modal-dialog-tarea" data-reloj="{{ $watch->id }}">
                                         Eliminar
                                     </button>
-                                </div>
+
                             </div>
 
                         </div>
@@ -146,7 +144,7 @@
 
         @if (isset($relojesWallapop))
         @foreach ($relojesWallapop as $watch)
-            <div class="col gallery-group-2 mb-2 equal-height px-1"> <!-- px-1 adds minimal horizontal padding -->
+            <div class="col gallery-group-2 mb-2 equal-height px-1">
                 <div class="w-full py-4">
                     <div class="bg-white shadow-xl rounded-lg overflow-hidden">
                         <div class="image-inner bg-cover bg-center h-56 p-2" style="height: 300px;">
@@ -209,21 +207,18 @@
                             <p class="text-gray-700"><i class="fas fa-calendar"></i> Última actualización: {{$watch->updated_at}}</p>
                             <p class="text-gray-700"><i class="fas fa-calendar"></i> Fecha de obtención: {{$watch->fecha_obtencion}}</p>
                         </div>
-                        <div class="flex p-2 border-t border-gray-300 text-gray-700 justify-content-between align-items-center">
-                            <div class="d-flex">
-                                <a href="{{ $watch->url }}" class="btn btn-primary mr-2" target="_blank">
-                                    Ver más
-                                </a>
-                                <a class="btn btn-primary mr-2" href="{{ route('relojesViejosW', ['reloj' => $watch]) }}" target="_blank">
-                                    Información
-                                </a>
-                            </div>
-                            <div>
-                                <button class="btn btn-danger eliminar-reloj" data-bs-toggle="modal" data-bs-target="#modal-dialog-tarea" data-reloj="{{ $watch->id }}">
-                                    Eliminar
-                                </button>
-                            </div>
-                        </div>
+                        <div class="p-3  justify-content-center  row row-cols-3 ">
+
+                            <a href="{{ $watch->url }}" class="custom-btn mr-2  col " target="_blank">Ver</a>
+                            <a class="custom-btn mr-2  col" href="{{ route('relojesViejosW', ['reloj' => $watch]) }}" target="_blank">
+                                Información
+                            </a>
+
+                            <button class="btn-danger eliminar-reloj px-3 col" data-bs-toggle="modal" data-bs-target="#modal-dialog-tarea" data-reloj="{{ $watch->id }}">
+                                Eliminar
+                            </button>
+
+                    </div>
                     </div>
                 </div>
             </div>
@@ -244,29 +239,3 @@
 
 @include('scripts.relojes-index')
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-
-
-
-
-        // Captura el evento de clic en los botones "Guardar"
-        document.querySelectorAll('.eliminar-reloj').forEach(button => {
-            button.addEventListener('click', (event) => {
-                const reloj = button.getAttribute('data-reloj');
-                document.getElementById('relojId').value = reloj;
-            });
-        });
-
-        // Captura el evento de clic en el botón "Confirmar" del modal
-        document.getElementById('confirmarEliminacion').addEventListener('click', (event) => {
-            // Envía el formulario al hacer clic en "Confirmar"
-            const form = document.getElementById('eliminarRelojForm');
-            form.submit();
-        });
-
-
-
-
-    });
-</script>

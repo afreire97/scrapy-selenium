@@ -1,13 +1,13 @@
 <x-app-layout>
 
-    @include('styles.gallery')
+    @include('styles.dashboard')
 
 
 
 
     <div id="options" class="m-3 pt-5 ps-5">
         <div class="d-flex flex-wrap text-nowrap mb-n1" id="filter" data-option-key="filter">
-            <a href="#show-all" class="btn btn-white btn-sm active border-0 me-1 mb-1" data-option-value="*">Show All</a>
+            <a href="#show-all" class="btn btn-white btn-sm active border-0 me-1 mb-1" data-option-value="*">Todos</a>
             <a href="#gallery-group-1" class="btn btn-white btn-sm border-0 me-1 mb-1"
                 data-option-value=".gallery-group-1">Vinted</a>
             <a href="#gallery-group-2" class="btn btn-white btn-sm border-0 me-1 mb-1"
@@ -16,13 +16,12 @@
 
     </div>
 
-    <!-- Modal para confirmar guardar reloj -->
     <div class="modal fade" id="modal-dialog-tarea">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header"
-                    style="background-color: #008080; display: flex; justify-content: center; align-items: center;">
-                    <h4 class="modal-title">Confirmar Guardar</h4>
+                    style="background-color: #003780; display: flex; justify-content: center; align-items: center;">
+                    <h4 class="modal-title text-white">Confirmar Guardar</h4>
                 </div>
                 <form id="guardarRelojForm" action="{{ route('guardar-reloj') }}" method="POST">
                     @csrf

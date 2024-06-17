@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\RelojVinted;
 use App\Models\RelojWallapop;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class RelojController extends Controller
 {
@@ -56,7 +55,6 @@ class RelojController extends Controller
         $reloj = RelojVinted::findOrFail($relojId);
         $relojesViejos = $reloj->relojesViejos;
 
-        // Supongamos que necesitamos obtener los datos en un formato específico
         $datosFormatoEspecifico = [];
 
         foreach ($relojesViejos as $relojViejo) {
@@ -68,6 +66,12 @@ class RelojController extends Controller
 
             ];
         }
+        $datosFormatoEspecifico[] = [
+            'fecha_obtencion' => $reloj->updated_at->format('Y-m-d H:i:s'),
+            'price' => $reloj->price,
+            'views' => $reloj->views,
+            'created_at' => $reloj->created_at->format('Y-m-d H:i:s'),
+        ];
 
         return response()->json($datosFormatoEspecifico);
     }
@@ -77,7 +81,6 @@ class RelojController extends Controller
         $reloj = RelojWallapop::findOrFail($relojId);
         $relojesViejos = $reloj->relojesViejos;
 
-        // Supongamos que necesitamos obtener los datos en un formato específico
         $datosFormatoEspecifico = [];
 
         foreach ($relojesViejos as $relojViejo) {
@@ -85,10 +88,16 @@ class RelojController extends Controller
                 'fecha_obtencion' => $relojViejo->fecha_obtencion,
                 'price' => $relojViejo->price,
                 'views' => $relojViejo->views,
-                'created_at' => $relojViejo->created_at->format('Y-m-d H:i:s'), // Formatea la fecha con hora
+                'created_at' => $relojViejo->created_at->format('Y-m-d H:i:s'),
 
             ];
         }
+        $datosFormatoEspecifico[] = [
+            'fecha_obtencion' => $reloj->updated_at->format('Y-m-d H:i:s'),
+            'price' => $reloj->price,
+            'views' => $reloj->views,
+            'created_at' => $reloj->created_at->format('Y-m-d H:i:s'),
+        ];
 
         return response()->json($datosFormatoEspecifico);
     }
@@ -102,12 +111,10 @@ class RelojController extends Controller
 
         $deleted = RelojVinted::destroy($id);
 
-        // Si no se encontró en RelojVinted, intenta eliminarlo de RelojWallapop
         if (!$deleted) {
             $deleted = RelojWallapop::destroy($id);
         }
 
-        // Verifica si se eliminó correctamente
         if ($deleted) {
             return redirect()->route('relojes.index')->with('success', 'Reloj eliminado correctamente');
         } else {
@@ -115,19 +122,6 @@ class RelojController extends Controller
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Guarda un reloj en la base de datos.
-     */
 
 
 

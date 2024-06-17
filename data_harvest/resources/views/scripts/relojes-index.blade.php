@@ -19,3 +19,29 @@
 <script src="{{ asset('plugins/lightbox2/dist/js/lightbox.min.js') }}"></script>
 
 <script src="{{ asset('js/demo/gallery.demo.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+
+
+
+        // Captura el evento de clic en los botones "Guardar"
+        document.querySelectorAll('.eliminar-reloj').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const reloj = button.getAttribute('data-reloj');
+                document.getElementById('relojId').value = reloj;
+            });
+        });
+
+        // Captura el evento de clic en el botón "Confirmar" del modal
+        document.getElementById('confirmarEliminacion').addEventListener('click', (event) => {
+            // Envía el formulario al hacer clic en "Confirmar"
+            const form = document.getElementById('eliminarRelojForm');
+            form.submit();
+        });
+
+
+
+
+    });
+</script>

@@ -39,12 +39,10 @@ class WallapopSpider(scrapy.Spider):
             )
         )
 
-        # Obtén los elementos con la clase especificada
         items = driver.find_elements(By.CSS_SELECTOR, ".ItemCardList__item")
 
         parsed_items = 0
 
-        # Itera sobre los elementos y extrae los datos
         for item in items:
             item_text = item.get_attribute("title")
             item_url = item.get_attribute("href")
@@ -69,15 +67,11 @@ class WallapopSpider(scrapy.Spider):
         wait = WebDriverWait(driver, 15)
         wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".pb-5")))
 
-        # Obtener el elemento .pb-5
         pb5_element = driver.find_element(By.CSS_SELECTOR, ".pb-5")
 
-        # Obtener las imágenes
         image = pb5_element.find_element(By.TAG_NAME, "img")  
         image_src = image.get_attribute("src")
-        # valoracion = pb5_element.find_element(By.CSS_SELECTOR, 'item-detail-header_ItemDetailHeader__text--typoLowS__9JNQi').text
 
-        # Obtener el precio
         price = pb5_element.find_element(
             By.CSS_SELECTOR, ".item-detail-price_ItemDetailPrice--standard__TxPXr"
         ).text
@@ -87,10 +81,7 @@ class WallapopSpider(scrapy.Spider):
             By.CSS_SELECTOR, "h1.item-detail_ItemDetail__title__wcPRl"
         ).text
 
-        # description = pb5_element.find_element(
-        #     By.CSS_SELECTOR, "section.item-detail_ItemDetail__description__7rXXT"
-        # ).text
-
+    
         item_url = response.url
 
         match = re.search(r"(\d+)$", item_url)
@@ -100,14 +91,12 @@ class WallapopSpider(scrapy.Spider):
             By.CSS_SELECTOR, "div.mr-3.d-flex.align-items-center"
         )
 
-        # Obtener el span dentro del div
         views = views_div.find_element(By.TAG_NAME, "span").text
 
         location_div = pb5_element.find_element(
             By.CSS_SELECTOR, "div.d-flex.item-detail-location_ItemDetailLocation___QiCU"
         )
 
-        # Obtener el elemento <a> dentro del div
         location = location_div.find_element(By.TAG_NAME, "a").text
         fecha_guardado = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
@@ -125,7 +114,6 @@ class WallapopSpider(scrapy.Spider):
         }
 
         self.item_data.append(item_data)
-        logging.info(f"Collected item: {item_data}")  # Log collected items
 
         driver.quit()
 

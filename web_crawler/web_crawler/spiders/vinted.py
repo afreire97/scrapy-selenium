@@ -88,7 +88,6 @@ class VintedSpider(scrapy.Spider):
 
         title = title_element.find_element(By.TAG_NAME, 'h2').text
 
-        # Agregar el objeto a self.item_data
         
         fecha_guardado = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
@@ -106,7 +105,6 @@ class VintedSpider(scrapy.Spider):
             'fecha_guardado' : fecha_guardado,
         })
 
-        # Agregar el objeto a self.item_data
 
         # Cierra el controlador de Selenium
         driver.quit()
