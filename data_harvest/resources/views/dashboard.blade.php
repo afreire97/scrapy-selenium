@@ -16,14 +16,12 @@
 
     </div>
 
-    <button class="btn btn-warning ms-8 " id="run-script-btn">Run Python Script</button>
-
-    <div id="output"></div>
-    @if(Session::has('jobStatusMessage'))
-    <div class="alert alert-info">
-        {{ Session::get('jobStatusMessage') }}
+    <div class="d-flex align-items-end justify-content-end me-4 mb-5 pb-5">
+        <button class="btn btn-success ms-8" id="run-script-btn">Buscar nuevos relojes</button>
+        <div id="loading-icon" style="display: none;">
+            <img style="width: 80px; height: auto;" src="{{asset('img/loading.gif')}}" alt="Cargando...">
+        </div>
     </div>
-@endif
 
 
 
@@ -59,8 +57,7 @@
             class="gallery row row-cols-1 row-cols-md-3 row-cols-xl-4 row-cols-lg-4 d-flex align-items-stretch">
             @if (isset($relojesVinted))
                 @foreach ($relojesVinted as $watch)
-                    <div class="col gallery-group-1 mb-2 equal-height px-1 gallery-item"
-                       >
+                    <div class="col gallery-group-1 mb-2 equal-height px-1 gallery-item">
                         <div class="w-full py-4">
                             <div class="bg-white shadow-xl rounded-lg overflow-hidden">
                                 <div class="image-inner bg-cover bg-center h-56 p-2 " style="height: 300px;">
@@ -102,8 +99,7 @@
 
             @if (isset($relojesWallapop))
                 @foreach ($relojesWallapop as $watch)
-                    <div class="col gallery-group-2 mb-2 equal-height px-1 gallery-item"
-                      >
+                    <div class="col gallery-group-2 mb-2 equal-height px-1 gallery-item">
                         <div class="w-full py-4">
                             <div class="bg-white shadow-xl rounded-lg overflow-hidden">
                                 <div class="image-inner bg-cover bg-center h-56 p-2" style="height: 300px;">
@@ -126,7 +122,8 @@
                                 <div
                                     class="flex p-2 border-t border-gray-300 text-gray-700 d-flex justify-content-between align-items-center">
                                     <div>
-                                        <a href="{{ $watch->url }}" class="btn btn-primary custom-btn" target="_blank">
+                                        <a href="{{ $watch->url }}" class="btn btn-primary custom-btn"
+                                            target="_blank">
                                             <i class="fas fa-external-link-alt"></i> Ver más
                                         </a>
                                     </div>
