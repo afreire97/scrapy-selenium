@@ -77,7 +77,7 @@
                                 <hr>
                                 <p class="text-3xl text-gray-900">
                                     @php
-                                        $relojViejoMasReciente = $watch->relojesViejos()->latest('created_at')->first();
+                                        $relojViejoMasReciente = $watch->relojesViejos()->oldest('created_at')->first();
                                     @endphp
                                     @if (isset($relojViejoMasReciente))
                                         @if ($watch->price > $relojViejoMasReciente->price)

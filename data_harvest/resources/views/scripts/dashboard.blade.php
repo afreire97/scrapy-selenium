@@ -2,7 +2,6 @@
     integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-{{-- <script src="{{asset('js\fetch_data\app.js')}}"></script> --}}
 
 
 
@@ -45,3 +44,27 @@
         });
     });
 </script>
+    <script>
+        $(document).ready(function() {
+            $('#run-script-btn').click(function() {
+                console.log('Botón "Run Python Script" clicado.');
+
+                $.ajax({
+                    url: '/run-python-script',
+                    type: 'GET',
+                    success: function(data) {
+                        console.log('Solicitud AJAX exitosa.', data);
+                        if(data.success) {
+                            $('#output').text(data.output);
+                        } else {
+                            $('#output').text('Error: ' + data.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error en la solicitud AJAX:', error);
+                        $('#output').text('Error en la solicitud AJAX: ' + error);
+                    }
+                });
+            });
+        });
+    </script>

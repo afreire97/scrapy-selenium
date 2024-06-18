@@ -16,6 +16,17 @@
 
     </div>
 
+    <button class="btn btn-warning ms-8 " id="run-script-btn">Run Python Script</button>
+
+    <div id="output"></div>
+    @if(Session::has('jobStatusMessage'))
+    <div class="alert alert-info">
+        {{ Session::get('jobStatusMessage') }}
+    </div>
+@endif
+
+
+
     <div class="modal fade" id="modal-dialog-tarea">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">

@@ -15,7 +15,7 @@ class LectorJson
     public static function leerJsonVinted()
     {
         // Ruta al archivo JSON
-        $rutaJson = __DIR__ . '/../../../../../web_crawler/web_crawler/vinted.json';
+        $rutaJson = __DIR__ . '/../../../../vinted.json';
 
         // Verificar si el archivo JSON existe
         if (File::exists($rutaJson)) {
@@ -106,7 +106,7 @@ class LectorJson
     public static function leerJsonWallapop()
     {
         // Ruta al archivo JSON
-        $rutaJson = __DIR__ . '/../../../../../web_crawler/web_crawler/wallapop.json';
+        $rutaJson = __DIR__ . '/../../../../wallapop.json';
 
         // Verificar si el archivo JSON existe
         if (File::exists($rutaJson)) {
